@@ -1,0 +1,106 @@
+<!-- base on snippt: https://bl.ocks.org/alaneng/14cec7865dc5faf91ebb551878b4b010 -->
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Real time map of events</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.slim.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io-stream/0.9.1/socket.io-stream.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.11.2/lodash.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://d3js.org/topojson.v1.min.js"></script>
+  <script src='scripts/d3map.js'></script>
+  <style type="text/css">
+    body {
+      background: #f4f4f4;
+    }
+
+    svg {
+      display: block;
+      margin: auto;
+    }
+
+    .land-boundary {
+      fill: grey;
+    }
+
+    .state-boundary {
+      fill: none;
+      stroke: white;
+      stroke-width: 0.25;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='root'></div>
+  <script>
+    let width = 960,
+      height = 500;
+
+    // see: https://github.com/d3/d3-3.x-api-reference/blob/master/Geo-Projections.md
+    let projection = d3.geo.albersUsa()
+      .scale(1000)
+      .translate([width / 2, height / 2]);
+
+    let path = d3.geo.path()
+      .projection(projection);
+
+    d3_draw(d3.select('#root'));
+
+    var socket = io.connect('http://localhost:8080/socketio');
+
+    socket.on("connect", function () {
+      console.log("connected");
+
+      ss(socket).on('data', function (stream, data) {
+        var jsonData = '';
+
+        stream.on('data', function (data) {
+          // console.log('data', data);
+          // console.log('data length: ', data.length);
+          for (var i = 0; i < data.length; i++) {
+            jsonData += String.fromCharCode(data[i]);
+          }
+          // console.log(jsonData);
+
+          // handle invalid json strings:
+          // if it does not start with {, cut till the first {,
+          // if it does not end with }, cut till the last }
+          // TODO: this potentially loses the first and last incomplete zip objects
+          // TODO: consider using node object stream, see: https://nodesource.com/blog/understanding-object-streams/
+          var firstIdx = jsonData.indexOf('{');
+          if (firstIdx != 0) {
+            jsonData = jsonData.substring(firstIdx);
+          }
+          var lastIdx = jsonData.lastIndexOf('}');
+          if (lastIdx != jsonData.length - 1) {
+            jsonData = jsonData.substring(0, lastIdx + 1);
+          }
+          jsonData = '[' + jsonData + ']';
+
+          // update map
+          var zips = JSON.parse(jsonData);
+          var zipObjs = Object.keys(zips).map(x => Object({ lat: zips[x].lat, lon: zips[x].long }));
+
+          // add filters on the fields, we can also do filtering on the browser side with user input
+          // var zipObjs = zipObjs.filter(zip => zip.country == 'US');
+          
+          console.log('updating the map, zip count: ' + zipObjs.length);
+
+          // update the map
+          d3_ping(d3.select('#root'), zipObjs);
+          
+          jsonData = ''; // reset
+        });
+
+        stream.on('end', function (data) {
+          console.log('stream end')
+        });
+      });
+    });
+
+  </script>
+</body>
+
+</html>

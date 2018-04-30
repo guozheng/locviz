@@ -1,0 +1,13 @@
+[
+    {
+        "zip_code": "00705",
+        "zip_code_type": "STANDARD",
+        "city": "AIBONITO",
+        "state": "PR",
+        "lat": 18.14,
+        "long": -66.26,
+        "world_region": "NA",
+        "country": "US",
+        "active": true
+    }
+]
