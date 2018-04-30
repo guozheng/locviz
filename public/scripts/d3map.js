@@ -41,7 +41,7 @@ function d3_ping(el, zipcodes) {
     'r': 1,
     'opacity': 1e-6,
     'fill-opacity': 0.3,
-    'fill': '#c700ff',
+    'fill': '#dc143c',
     'stroke': '#fff',
     'stroke-opacity': 1
   })
@@ -50,7 +50,7 @@ function d3_ping(el, zipcodes) {
     .duration(1500)
     .ease('cubic-in-out')
     .attr({
-      'fill': '#c700ff',
+      'fill': '#dc143c',
       'opacity': 1,
       'r': 15,
       'stroke-opacity': 0.4,
@@ -63,7 +63,7 @@ function d3_ping(el, zipcodes) {
       dot.transition()
         .duration(600)
         .attr({
-          'fill': '#c700ff',
+          'fill': '#dc143c',
           'opacity': 0.9,
           'fill-opacity': 0.9,
           'stroke-width': '1px',
@@ -76,7 +76,7 @@ function d3_ping(el, zipcodes) {
           point.transition()
             .duration(5000)
             .attr({
-              'fill': 'white'
+              'fill': '#ffd700'
             })
             // .remove() // remove the dots
         })
