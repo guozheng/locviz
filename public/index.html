@@ -64,24 +64,9 @@
           }
           // console.log(jsonData);
 
-          // handle invalid json strings:
-          // if it does not start with {, cut till the first {,
-          // if it does not end with }, cut till the last }
-          // TODO: this potentially loses the first and last incomplete zip objects
-          // TODO: consider using node object stream, see: https://nodesource.com/blog/understanding-object-streams/
-          var firstIdx = jsonData.indexOf('{');
-          if (firstIdx != 0) {
-            jsonData = jsonData.substring(firstIdx);
-          }
-          var lastIdx = jsonData.lastIndexOf('}');
-          if (lastIdx != jsonData.length - 1) {
-            jsonData = jsonData.substring(0, lastIdx + 1);
-          }
-          jsonData = '[' + jsonData + ']';
-
           // update map
           var zips = JSON.parse(jsonData);
-          var zipObjs = Object.keys(zips).map(x => Object({ lat: zips[x].lat, lon: zips[x].long }));
+          var zipObjs = Object.keys(zips).map(x => Object({ lat: zips[x].latitude, lon: zips[x].longitude }));
 
           // add filters on the fields, we can also do filtering on the browser side with user input
           // var zipObjs = zipObjs.filter(zip => zip.country == 'US');
