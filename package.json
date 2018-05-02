@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "startTestClient": "rm /tmp/request-ips; touch /tmp/request-ips; for i in {1..10}; do sleep 2; cat ./data/sample-ips >> /tmp/request-ips; done"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

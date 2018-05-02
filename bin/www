@@ -41,7 +41,9 @@ var ipToLatLonJson = new Transform({
     var result = [];
     for (var i = 0; i < ips.length; i++) {
       var city = cityLookup.get(ips[i])
-      result.push(city.location);
+      if (city && city.hasOwnProperty('location')) {
+        result.push(city.location);
+      }
     }
     var resultStr = JSON.stringify(result);
     console.log("resultStr: " + resultStr);
@@ -59,7 +61,7 @@ io.of('/socketio').on('connection', function (socket) {
   ss(socket).emit('data', stream);
   // fs.createReadStream('public/zips.json').pipe(ipToLatLonJson).pipe(stream);
   // fs.createReadStream('data/sample-ips').pipe(ipToLatLonJson).pipe(stream);
-  ts.createReadStream('data/sample-ips', {
+  ts.createReadStream('/tmp/request-ips', {
     beginAt: 0,
     onMove: 'follow',
     detectTruncate: true,
