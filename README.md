@@ -9,7 +9,7 @@ This is a simple tool to visualize ip addresses on a map. For example, you can u
    * Clone the git repo: `git clone https://github.com/guozheng/locviz.git`
    * Install package manager (we use [yarn](https://yarnpkg.com/en/)) libs: `brew install yarn && yarn install`
    * Start test client that writes ips to `/tmp/request-ips`: `yarn startTestClient`
-   * Start the server and point Web browser to `http://localhost:8080`
+   * Start the server `yarn start` and point Web browser to `http://localhost:8080`
 
 # Acknowledgement
 
