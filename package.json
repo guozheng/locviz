@@ -21,7 +21,7 @@
     "tail-stream": "^0.3.4",
     "clean-css": "^4.2.1",
     "mem": "^5.1.1",
-    "dot-prop": "^4.2.1",
+    "dot-prop": "^5.1.1",
     "acorn": "^5.7.4"
   },
   "devDependencies": {
