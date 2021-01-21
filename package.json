@@ -16,7 +16,7 @@
     "npm": "~6.14.6",
     "npm-user-validate": "^1.0.1",
     "pug": "2.0.0-beta11",
-    "socket.io": "^2.1.0",
+    "socket.io": "^2.4.0",
     "socket.io-stream": "^0.9.1",
     "tail-stream": "^0.3.4",
     "clean-css": "^4.2.1",
